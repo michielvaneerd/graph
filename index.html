@@ -6,7 +6,13 @@
 <title>Graph</title>
 <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.6.0/pure-min.css">
 <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.6.0/grids-responsive-min.css">
+<link rel="stylesheet" href="http://michielvaneerd.github.io/simplefasthighlighter/simple-fast-highlighter.css">
 <style>
+
+#site {
+  max-width:768px;
+  margin:0 auto;
+}
 canvas, a.graphCanvas img {
   border:1px solid black;
 }
@@ -18,173 +24,195 @@ canvas, a.graphCanvas img {
 </head>
 <body>
 
-<div class="pure-g">
-  <div class="pure-u-1 graphContainer">
-    <canvas id="graph" width="400" height="300"></canvas>
-  </div>
-  <div class="pure-u-1 graphContainer">
-    <canvas id="graph2" width="400" height="300"></canvas>
-   </div>
-</div>
+<div id="site">
 
-<div class="pure-g">
-  <div class="pure-u-1 graphContainer">
-    <canvas id="graph3" width="400" height="300"></canvas>
-  </div>
-  <div class="pure-u-1 graphContainer">
-    <canvas id="graph4" width="400" height="300"></canvas>
-  </div>
-</div>
+  <h1>Graph</h1>
+  
+  <p>A bar and pie graph implementation with canvas.</p>
+  
+  <h2>Usage</h2>
+  
+  <p>Include <a href="graph.js">graph.js</a> and call the <code class="js">draw</code> method with some data and configuration.</p>
+  
+  <h3>Bar</h3>
+  
+  <h4>Bar graph with one serie</h4>
+  
+  <div class="pure-g">
+        <div class="pure-u-1 graphContainer">
+          <canvas id="graphBarOneSerie" width="400" height="300"></canvas>
+        </div>
+    </div>
+  
+  <pre class="js">var data = [
+  {values : [20], label : &quot;jan&quot;, legendLabel : &quot;january&quot;, fillStyle : &quot;#55B473&quot;},
+  {values : [25], label : &quot;feb&quot;, legendLabel : &quot;february&quot;, fillStyle : &quot;#4FB0C1&quot;},
+  {values : [30], label : &quot;mar&quot;, legendLabel : &quot;march&quot;, fillStyle : &quot;#3B69C1&quot;},
+  {values : [25], label : &quot;apr&quot;, legendLabel : &quot;april&quot;, fillStyle : &quot;#6766C1&quot;},
+  {values : [20], label : &quot;may&quot;, legendLabel : &quot;may&quot;, fillStyle : &quot;#9157C1&quot;},
+  {values : [20], label : &quot;jun&quot;, legendLabel : &quot;june&quot;, fillStyle : &quot;#B44D8B&quot;},
+  {values : [20], label : &quot;jul&quot;, legendLabel : &quot;july&quot;, fillStyle : &quot;#C13B48&quot;}
+];
 
+var config = {
+  legend : true,
+  title : &quot;Simple bar&quot;,
+  maxValue : undefined,
+  gridValue : 6,
+  barWidth : undefined,
+  barSpacing : 20,
+  paddingRight : 100,
+  paddingLeft : 60,
+  paddingTop : 60,
+  paddingBottom : 60,
+  fillStyle : &quot;white&quot;,
+  gridStrokeStyle : &quot;black&quot;,
+  labelColor : &quot;black&quot;,
+  xLabel : &quot;Months&quot;,
+  yLabel : &quot;Unique pageviews&quot;,
+  xLabelFillStyle : &quot;#404040&quot;,
+  yLabelFillStyle : &quot;#404040&quot;,
+  fileName : &quot;simple_bar.png&quot; // makes the graph downloadable as PNG
+};
 
+var graph = new Graph(&quot;Bar&quot;,
+  document.getElementById(&quot;graphBarOneSerie&quot;), data, config);
+graph.draw();</pre>
 
-<script src="graph.js"></script>
-<script>
-  // Bar single serie
-
-  var data = [
-      {values : [20], label : "jan", legendLabel : "january", fillStyle : "#55B473"},
-      {values : [25], label : "feb", legendLabel : "february", fillStyle : "#4FB0C1"},
-      {values : [30], label : "mar", legendLabel : "march", fillStyle : "#3B69C1"},
-      {values : [25], label : "apr", legendLabel : "april", fillStyle : "#6766C1"},
-      {values : [20], label : "may", legendLabel : "may", fillStyle : "#9157C1"},
-      {values : [20], label : "jun", legendLabel : "june", fillStyle : "#B44D8B"},
-      {values : [20], label : "jul", legendLabel : "july", fillStyle : "#C13B48"}
-  ];
-
-  var config = {
-      legend : true,
-      title : "Simple bar",
-      maxValue : undefined,
-      gridValue : 6,
-      barWidth : undefined,
-      barSpacing : 20,
-      paddingRight : 100,
-      paddingLeft : 60,
-      paddingTop : 60,
-      paddingBottom : 60,
-      fillStyle : "white",
-      gridStrokeStyle : "black",
-      labelColor : "black",
-      xLabel : "Months",
-      yLabel : "Unique pageviews",
-      xLabelFillStyle : "#404040",
-      yLabelFillStyle : "#404040",
-      fileName : "simple_bar.png"
-  };
-
-  var graph = new Graph("Bar", document.getElementById("graph"), data, config);
-  graph.draw();
-  
-  
-  
-  
-  // bar multiple series
-  
-  var data2 = [
-      {values : [20, 30, 10], label : "jan"},
-      {values : [25, 15, 0], label : "feb"},
-      {values : [30, 20, 10], label : "mar"},
-      {values : [25, 25, 5], label : "apr"},
-      {values : [15, 65, 25], label : "may"},
-      {values : [45, 40, 30], label : "jun"},
-      {values : [25, 25, 15], label : "jul"},
-      {values : [15, 5, 10], label : "aug"},
-      {values : [5, 15, 10], label : "sep"}
-  ];
-  var config2 = {
-      series : [
-          {label : "male", fillStyle : "#66D9EF"},
-          {label : "female", fillStyle : "#F92672"},
-          {label : "unknown", fillStyle : "#E6DB74"}
-      ],
-      legend : true,
-      title : "Mulitple series",
-      maxValue : undefined,
-      gridValue : undefined,
-      barWidth : undefined,
-      barSpacing : 10,
-      seriesSpacing : 4,
-      paddingRight : 90,
-      paddingLeft : 40,
-      paddingTop : 60,
-      paddingBottom : 40
-  };
-  var graph2 = new Graph("Bar", document.getElementById("graph2"), data2, config2);
-  graph2.draw();
-  
-  
-  
-  
-  // stacked bar
-  
-  var data3 = [
-      {values : [20, 30, 10], label : "jan"},
-      {values : [25, 15, 0], label : "feb"},
-      {values : [30, 20, 10], label : "mar"},
-      {values : [25, 25, 5], label : "apr"},
-      {values : [15, 65, 20], label : "may"},
-      {values : [40, 40, 30], label : "jun"},
-      {values : [25, 25, 15], label : "jul"},
-      {values : [10, 10, 10], label : "aug"},
-      {values : [5, 15, 10], label : "sep"}
-  ];
-  var config3 = {
-      series : [
-          {label : "male", fillStyle : "#66D9EF"},
-          {label : "female", fillStyle : "#F92672"},
-          {label : "unknown", fillStyle : "#E6DB74"}
-      ],
-      legend : true,
-      stacked : true,
-      title : "Stacked",
-      maxValue : undefined,
-      gridValue : 10,
-      barWidth : undefined,
-      barSpacing : 10,
-      seriesSpacing : 4,
-      paddingRight : 90,
-      paddingLeft : 40,
-      paddingTop : 60,
-      paddingBottom : 40,
-      fileName : "stacked_bar.png"
-  };
-  var graph3 = new Graph("Bar", document.getElementById("graph3"), data3, config3);
-  graph3.draw();
-  
-  
-  
-  // Pie
-  var data = [
-      {values : [5], label : "jan", legendLabel : "january", fillStyle : "#55B473"},
-      {values : [25], label : "feb", legendLabel : "february", fillStyle : "#4FB0C1"},
-      {values : [10], label : "mar", legendLabel : "march", fillStyle : "#3B69C1"},
-      {values : [25], label : "apr", legendLabel : "april", fillStyle : "#6766C1"},
-      {values : [20], label : "may", legendLabel : "may", fillStyle : "#9157C1"},
-      {values : [40], label : "jun", legendLabel : "june", fillStyle : "#B44D8B"},
-      {values : [20], label : "jul", legendLabel : "july", fillStyle : "#C13B48"}
-  ];
-
-  var config = {
-      legend : true,
-      title : "Simple pie",
-      maxValue : undefined,
-      gridValue : 6,
-      paddingRight : 60,
-      paddingLeft : 40,
-      paddingTop : 60,
-      paddingBottom : 40,
-      fillStyle : "white",
-      gridStrokeStyle : "black",
-      labelColor : "black",
-      fileName : "simple_pie.png"
-  };
-
-  var graph = new Graph("Pie", document.getElementById("graph4"), data, config);
-  graph.draw();
     
+    
+    <h4>Bar graph with more series</h4>
+    
+    <div class="pure-g">
+    <div class="pure-u-1 graphContainer">
+      <canvas id="graphBarSeries" width="400" height="300"></canvas>
+    </div>
+  </div>
+    
+    <pre class="js">var data2 = [
+  {values : [20, 30, 10], label : &quot;jan&quot;},
+  {values : [25, 15, 0], label : &quot;feb&quot;},
+  {values : [30, 20, 10], label : &quot;mar&quot;},
+  {values : [25, 25, 5], label : &quot;apr&quot;},
+  {values : [15, 65, 25], label : &quot;may&quot;},
+  {values : [45, 40, 30], label : &quot;jun&quot;},
+  {values : [25, 25, 15], label : &quot;jul&quot;},
+  {values : [15, 5, 10], label : &quot;aug&quot;},
+  {values : [5, 15, 10], label : &quot;sep&quot;}
+];
+var config2 = {
+  series : [
+    {label : &quot;male&quot;, fillStyle : &quot;#66D9EF&quot;},
+    {label : &quot;female&quot;, fillStyle : &quot;#F92672&quot;},
+    {label : &quot;unknown&quot;, fillStyle : &quot;#E6DB74&quot;}
+  ],
+  legend : true,
+  title : &quot;Mulitple series&quot;,
+  maxValue : undefined,
+  gridValue : undefined,
+  barWidth : undefined,
+  barSpacing : 10,
+  seriesSpacing : 4,
+  paddingRight : 90,
+  paddingLeft : 40,
+  paddingTop : 60,
+  paddingBottom : 40
+};
+var graph2 = new Graph(&quot;Bar&quot;,
+  document.getElementById(&quot;graphBarSeries&quot;), data2, config2);
+graph2.draw();</pre>
 
-</script>
+  
+  
+  <h4>Stacked bar</h4>
+  
+  <div class="pure-g">
+    <div class="pure-u-1 graphContainer">
+      <canvas id="graphStacked" width="400" height="300"></canvas>
+    </div>
+    
+  </div>
+  
+  <pre class="js">var data3 = [
+  {values : [20, 30, 10], label : &quot;jan&quot;},
+  {values : [25, 15, 0], label : &quot;feb&quot;},
+  {values : [30, 20, 10], label : &quot;mar&quot;},
+  {values : [25, 25, 5], label : &quot;apr&quot;},
+  {values : [15, 65, 20], label : &quot;may&quot;},
+  {values : [40, 40, 30], label : &quot;jun&quot;},
+  {values : [25, 25, 15], label : &quot;jul&quot;},
+  {values : [10, 10, 10], label : &quot;aug&quot;},
+  {values : [5, 15, 10], label : &quot;sep&quot;}
+];
+var config3 = {
+  series : [
+    {label : &quot;male&quot;, fillStyle : &quot;#66D9EF&quot;},
+    {label : &quot;female&quot;, fillStyle : &quot;#F92672&quot;},
+    {label : &quot;unknown&quot;, fillStyle : &quot;#E6DB74&quot;}
+  ],
+  legend : true,
+  stacked : true,
+  title : &quot;Stacked&quot;,
+  maxValue : undefined,
+  gridValue : 10,
+  barWidth : undefined,
+  barSpacing : 10,
+  seriesSpacing : 4,
+  paddingRight : 90,
+  paddingLeft : 40,
+  paddingTop : 60,
+  paddingBottom : 40,
+  fileName : &quot;stacked_bar.png&quot;
+};
+var graph3 = new Graph(&quot;Bar&quot;,
+  document.getElementById(&quot;graphStacked&quot;), data3, config3);
+graph3.draw();</pre>
+
+  <h3>Pie</h3>
+  
+  <h4>Simple pie</h4>
+  
+  <div class="pure-g">
+    <div class="pure-u-1 graphContainer">
+      <canvas id="graphPie" width="400" height="300"></canvas>
+    </div>
+  </div>
+  
+  <pre class="js">var data = [
+  {values : [5], label : &quot;jan&quot;, legendLabel : &quot;january&quot;, fillStyle : &quot;#55B473&quot;},
+  {values : [25], label : &quot;feb&quot;, legendLabel : &quot;february&quot;, fillStyle : &quot;#4FB0C1&quot;},
+  {values : [10], label : &quot;mar&quot;, legendLabel : &quot;march&quot;, fillStyle : &quot;#3B69C1&quot;},
+  {values : [25], label : &quot;apr&quot;, legendLabel : &quot;april&quot;, fillStyle : &quot;#6766C1&quot;},
+  {values : [20], label : &quot;may&quot;, legendLabel : &quot;may&quot;, fillStyle : &quot;#9157C1&quot;},
+  {values : [40], label : &quot;jun&quot;, legendLabel : &quot;june&quot;, fillStyle : &quot;#B44D8B&quot;},
+  {values : [20], label : &quot;jul&quot;, legendLabel : &quot;july&quot;, fillStyle : &quot;#C13B48&quot;}
+];
+
+var config = {
+  legend : true,
+  title : &quot;Simple pie&quot;,
+  maxValue : undefined,
+  gridValue : 6,
+  paddingRight : 60,
+  paddingLeft : 40,
+  paddingTop : 60,
+  paddingBottom : 40,
+  fillStyle : &quot;white&quot;,
+  gridStrokeStyle : &quot;black&quot;,
+  labelColor : &quot;black&quot;,
+  fileName : &quot;simple_pie.png&quot;
+};
+
+var graph = new Graph(&quot;Pie&quot;,
+  document.getElementById(&quot;graphPie&quot;), data, config);
+graph.draw();</pre>
+
+</div>
+
+<script src="http://michielvaneerd.github.io/simplefasthighlighter/simple-fast-highlighter.js"></script>
+<script src="http://michielvaneerd.github.io/simplefasthighlighter/simple-fast-highlighter_lang.js"></script>
+<script src="graph.js"></script>
+<script src="app.js"></script>
 
 </body>
 </html>
