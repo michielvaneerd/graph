@@ -8,10 +8,17 @@
 <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.6.0/grids-responsive-min.css">
 <link rel="stylesheet" href="http://michielvaneerd.github.io/simplefasthighlighter/simple-fast-highlighter.css">
 <style>
-pre {
+textarea {
   padding:1em;
   border:1px solid #c0c0c0;
   background-color:#f0f0f0;
+  display:block;
+  position:relative;
+  margin-top:1em;
+  height:30em;
+  width:calc(100% - 2em - 2px);
+  font-family:monospace;
+  font-size:12px;
 }
 
 #site {
@@ -51,10 +58,10 @@ canvas, a.graphCanvas img {
     </div>
   
   <div><button onclick="executeGraph('graphBarOneSerie')">Execute</button></div>
-  <pre contenteditable="true" data-id="graphBarOneSerie" class="js">var data = [
+  <textarea data-id="graphBarOneSerie" class="js">var data = [
   {values : [20], label : &quot;jan&quot;, legendLabel : &quot;january&quot;, fillStyle : &quot;#55B473&quot;},
   {values : [25], label : &quot;feb&quot;, legendLabel : &quot;february&quot;, fillStyle : &quot;#4FB0C1&quot;},
-  {values : [30], label : &quot;mar&quot;, legendLabel : &quot;march&quot;, fillStyle : &quot;#3B69C1&quot;},
+  {values : [20], label : &quot;mar&quot;, legendLabel : &quot;march&quot;, fillStyle : &quot;#3B69C1&quot;},
   {values : [25], label : &quot;apr&quot;, legendLabel : &quot;april&quot;, fillStyle : &quot;#6766C1&quot;},
   {values : [20], label : &quot;may&quot;, legendLabel : &quot;may&quot;, fillStyle : &quot;#9157C1&quot;},
   {values : [20], label : &quot;jun&quot;, legendLabel : &quot;june&quot;, fillStyle : &quot;#B44D8B&quot;},
@@ -84,7 +91,7 @@ var config = {
 
 var graph = new Graph(&quot;Bar&quot;,
   document.getElementById(&quot;graphBarOneSerie&quot;), data, config);
-graph.draw();</pre>
+graph.draw();</textarea>
 
     
     
@@ -98,7 +105,7 @@ graph.draw();</pre>
   
   <div><button onclick="executeGraph('graphBarSeries')">Execute</button></div>
     
-    <pre contenteditable="true" data-id="graphBarSeries" class="js">var data2 = [
+    <textarea data-id="graphBarSeries" class="js">var data2 = [
   {values : [20, 30, 10], label : &quot;jan&quot;},
   {values : [25, 15, 0], label : &quot;feb&quot;},
   {values : [30, 20, 10], label : &quot;mar&quot;},
@@ -129,7 +136,7 @@ var config2 = {
 };
 var graph2 = new Graph(&quot;Bar&quot;,
   document.getElementById(&quot;graphBarSeries&quot;), data2, config2);
-graph2.draw();</pre>
+graph2.draw();</textarea>
 
   
   
@@ -143,7 +150,7 @@ graph2.draw();</pre>
   
   <div><button onclick="executeGraph('graphStacked')">Execute</button></div>
   
-  <pre contenteditable="true" data-id="graphStacked" class="js">var data3 = [
+  <textarea data-id="graphStacked" class="js">var data3 = [
   {values : [20, 30, 10], label : &quot;jan&quot;},
   {values : [25, 15, 0], label : &quot;feb&quot;},
   {values : [30, 20, 10], label : &quot;mar&quot;},
@@ -176,7 +183,7 @@ var config3 = {
 };
 var graph3 = new Graph(&quot;Bar&quot;,
   document.getElementById(&quot;graphStacked&quot;), data3, config3);
-graph3.draw();</pre>
+graph3.draw();</textarea>
 
   <h3>Pie</h3>
   
@@ -190,7 +197,7 @@ graph3.draw();</pre>
   
   <div><button onclick="executeGraph('graphPie')">Execute</button></div>
   
-  <pre contenteditable="true" data-id="graphPie" class="js">var data = [
+  <textarea data-id="graphPie" class="js">var data = [
   {values : [5], label : &quot;jan&quot;, legendLabel : &quot;january&quot;, fillStyle : &quot;#55B473&quot;},
   {values : [25], label : &quot;feb&quot;, legendLabel : &quot;february&quot;, fillStyle : &quot;#4FB0C1&quot;},
   {values : [10], label : &quot;mar&quot;, legendLabel : &quot;march&quot;, fillStyle : &quot;#3B69C1&quot;},
@@ -217,7 +224,7 @@ var config = {
 
 var graph = new Graph(&quot;Pie&quot;,
   document.getElementById(&quot;graphPie&quot;), data, config);
-graph.draw();</pre>
+graph.draw();</textarea>
 
 </div>
 
