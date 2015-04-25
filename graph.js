@@ -166,6 +166,9 @@ Graph.prototype.draw = function() {
         var a = document.createElement("a");
         a.className = "graphCanvas";
         a.href = url;
+        if (this.canvas.id) {
+          a.setAttribute("data-canvasid", this.canvas.id);
+        }
         var img = document.createElement("img");
         img.src = url;
         a.setAttribute("download", this.config.fileName);
