@@ -83,6 +83,7 @@ var config = {
   yLabel : &quot;Unique pageviews&quot;,
   xLabelFillStyle : &quot;#404040&quot;,
   yLabelFillStyle : &quot;#404040&quot;,
+  showValues : &quot;above&quot;,
   fileName : &quot;simple_bar.png&quot; // makes the graph downloadable as PNG
 };
 
@@ -129,7 +130,8 @@ var config2 = {
   paddingRight : 90,
   paddingLeft : 40,
   paddingTop : 60,
-  paddingBottom : 40
+  paddingBottom : 40,
+  showValues : false
 };
 var graph2 = new Graph(&quot;Bar&quot;,
   document.getElementById(&quot;graphBarSeries&quot;), data2, config2);

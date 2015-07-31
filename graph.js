@@ -286,6 +286,18 @@ Graph.prototype.drawBar = function() {
                 h);
             
             ctx.restore();
+            
+            if (this.config.showValues) {
+              switch (this.config.showValues) {
+                case "inside":
+                  ctx.fillText(d.values[j], x + (this.config.barWidth / 2), y + (h / 2));
+                  break;
+                case "above": // fallthrough
+                default:
+                  ctx.fillText(d.values[j], x + (this.config.barWidth / 2), y);
+                  break;
+              }
+            }
 
         }
         
