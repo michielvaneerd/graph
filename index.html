@@ -56,13 +56,13 @@ canvas, a.graphCanvas img {
   
   <div><button onclick="executeGraph('graphBarOneSerie')">Execute</button></div>
   <textarea data-id="graphBarOneSerie" class="js">var data = [
-  {values : [20], label : &quot;jan&quot;, legendLabel : &quot;january&quot;, fillStyle : &quot;#55B473&quot;},
+  {values : [22], label : &quot;jan&quot;, legendLabel : &quot;january&quot;, fillStyle : &quot;#55B473&quot;},
   {values : [25], label : &quot;feb&quot;, legendLabel : &quot;february&quot;, fillStyle : &quot;#4FB0C1&quot;},
-  {values : [20], label : &quot;mar&quot;, legendLabel : &quot;march&quot;, fillStyle : &quot;#3B69C1&quot;},
+  {values : [16], label : &quot;mar&quot;, legendLabel : &quot;march&quot;, fillStyle : &quot;#3B69C1&quot;},
   {values : [25], label : &quot;apr&quot;, legendLabel : &quot;april&quot;, fillStyle : &quot;#6766C1&quot;},
-  {values : [20], label : &quot;may&quot;, legendLabel : &quot;may&quot;, fillStyle : &quot;#9157C1&quot;},
-  {values : [20], label : &quot;jun&quot;, legendLabel : &quot;june&quot;, fillStyle : &quot;#B44D8B&quot;},
-  {values : [20], label : &quot;jul&quot;, legendLabel : &quot;july&quot;, fillStyle : &quot;#C13B48&quot;}
+  {values : [10], label : &quot;may&quot;, legendLabel : &quot;may&quot;, fillStyle : &quot;#9157C1&quot;},
+  {values : [4], label : &quot;jun&quot;, legendLabel : &quot;june&quot;, fillStyle : &quot;#B44D8B&quot;},
+  {values : [17], label : &quot;jul&quot;, legendLabel : &quot;july&quot;, fillStyle : &quot;#C13B48&quot;}
 ];
 
 var config = {
@@ -178,6 +178,7 @@ var config3 = {
   paddingLeft : 40,
   paddingTop : 60,
   paddingBottom : 40,
+  showValues : &quot;inside&quot;,
   fileName : &quot;stacked_bar.png&quot;
 };
 var graph3 = new Graph(&quot;Bar&quot;,

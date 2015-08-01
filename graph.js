@@ -287,6 +287,9 @@ Graph.prototype.drawBar = function() {
             
             ctx.restore();
             
+            // Better is to draw this after all bars have been drawed.
+            // Because then these always show on top (for example in stacked bars
+            // and show values "above" will cut these values off now).
             if (this.config.showValues) {
               switch (this.config.showValues) {
                 case "inside":
@@ -294,7 +297,7 @@ Graph.prototype.drawBar = function() {
                   break;
                 case "above": // fallthrough
                 default:
-                  ctx.fillText(d.values[j], x + (this.config.barWidth / 2), y);
+                  ctx.fillText(d.values[j], x + (this.config.barWidth / 2), y - 5);
                   break;
               }
             }
@@ -380,7 +383,6 @@ Graph.prototype.drawPie = function() {
         ctx.lineTo(centerX, centerY);
         ctx.fill();
         lastend += angleToAdd;
-    
     }
     
     ctx.restore();
