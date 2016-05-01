@@ -73,6 +73,7 @@ Graph.prototype.drawGridAndValues = function() {
     ctx.textBaseline = "middle";
     ctx.strokeStyle = this.config.gridStrokeStyle;
     ctx.fillStyle = this.config.labelColor;
+    ctx.lineWidth = 1;
     
     // De grootste waarde voor yTicks gebruik je om deze te positioneren op de x as
     var maxWidthWidth = ctx.measureText(this.config.maxValue.toString()).width;
@@ -201,6 +202,12 @@ Graph.prototype.initLine = function() {
         this.yLabelLeft = 0;
         this.yTicksLeft = this.yLabelWidth;
     }
+    if (this.config.strokeStyle === undefined) {
+        this.config.strokeStyle = "black";
+    }
+    if (this.config.lineWidth === undefined) {
+        this.config.lineWidth = 4;
+    }
 };
 
 
@@ -213,115 +220,119 @@ Graph.prototype.drawLine = function() {
         barWidth = this.config.barWidth,
         halfBarWidth = barWidth / 2,
         i, j, h, d, x, y, dx, dValue, dTotalValue, dTotalHeight, shadowValue;
-        
-    ctx.save();
     
     if (this.dataValuesLength > 1 && !this.config.stacked) {
         barWidth = this.config.barWidth / this.dataValuesLength;
         barWidth -= seriesSpacing / 2;
     }
     
+    this.drawGridAndValues();    
     
-    
-    this.drawGridAndValues();
+    ctx.save();
     
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
-
-    for (i = 0; i < this.dataLength; i++) {
+    ctx.strokeStyle = this.config.strokeStyle;
+    ctx.lineWidth = this.config.lineWidth;
+    ctx.lineJoin = "miter";
     
-        d = this.data[i];
-        
-        dx = this.plotLeft + (i * (this.config.barWidth + this.config.barSpacing));
-        dValue = 0;
-        dTotalValue = 0;
-        
-        if (this.dataValuesLength > 1 && this.config.stacked) {
-            for (j = 0; j < d.values.length; j++) {
-                dTotalValue += d.values[j];
-            }
-        }
-        
-        for (j = 0; j < d.values.length; j++) {
-        
-            ctx.save();
-        
-            h = d.values[j] * this.valuePixelRatio;
-            x = this.plotLeft + (i * (this.config.barWidth + this.config.barSpacing));
-            y = this.plotTop + this.plotHeight - h;
-            if (this.dataValuesLength > 1) {
-                if (!this.config.stacked) {
-                    x += (j * (barWidth + seriesSpacing));
-                } else {
-                    y -= (dValue * this.valuePixelRatio)
-                }
-            }
-            
-            dValue += d.values[j];
-            
-            // if (dTotalValue || !this.config.stacked) {
-                // shadowValue = dTotalValue || d.values[j];
-                // ctx.save();
-                // ctx.fillStyle = "#666";
-                // ctx.shadowColor = "#666";
-                // ctx.shadowOffsetX = 4;
-                // ctx.shadowOffsetY = 2;
-                // ctx.shadowBlur = 8;
-                // dTotalHeight = shadowValue * this.valuePixelRatio;
-                // ctx.fillRect(x,
-                    // this.plotTop + this.plotHeight - dTotalHeight,
-                    // barWidth,
-                    // dTotalHeight);
-                // dTotalValue = 0; // zodat deze NIET meer wordt getekend!
-                // ctx.restore();
-            // }
-        
-            
-        
-            ctx.fillStyle = (this.config.series.length && this.config.series[j].fillStyle)
-                || d.fillStyle;
-            
-            // Hiermee kun je ook nog de bar tekenen zodat je ze beide hebt:
-            ctx.fillRect(x,
-                y,
-                barWidth,
-                h);
-            ctx.moveTo(previousX === null ? (x + halfBarWidth) : (previousX + halfBarWidth), previousY === null ? y : previousY);
-            ctx.lineTo(x + halfBarWidth, y);
-            //ctx.stroke();
-            
-            ctx.restore();
-            
-            // Better is to draw this after all bars have been drawed.
-            // Because then these always show on top (for example in stacked bars
-            // and show values "above" will cut these values off now).
-            if (this.config.showValues) {
-              switch (this.config.showValues) {
-                case "inside":
-                  ctx.fillText(d.values[j], x + halfBarWidth, y + (h / 2));
-                  break;
-                case "above": // fallthrough
-                default:
-                  ctx.fillText(d.values[j], x + halfBarWidth, y - 5);
-                  break;
+    var valuesToDraw = [];
+    
+    for (j = 0; j < this.dataValuesLength; j++) {
+      
+      ctx.beginPath();
+    
+      for (i = 0; i < this.dataLength; i++) {
+      
+          d = this.data[i];
+          //if (d.strokeStyles && d.strokeStyles.length) {
+          //  ctx.strokeStyle = d.strokeStyles[j];
+          //}
+          if (this.config.series && this.config.series.length && this.config.series[j].fillStyle) {
+            ctx.strokeStyle = this.config.series[j].fillStyle;
+          }
+          
+          dx = this.plotLeft + (i * (this.config.barWidth + this.config.barSpacing));
+          dValue = 0;
+          dTotalValue = 0;
+          
+          if (this.dataValuesLength > 1 && this.config.stacked) {
+              for (j = 0; j < d.values.length; j++) {
+                  dTotalValue += d.values[j];
               }
-            }
-            
-            previousX = x;
-            previousY = y;
-
-        }
-        
-        ctx.stroke();
-        
-        if (d.label !== undefined) {
-            ctx.fillText(d.label,
-                dx + (this.config.barWidth / 2),
-                this.xTicksTop + (this.xTicksHeight / 2));
-        }
+          }
+          
+          
+          
+          
+   
+              h = d.values[j] * this.valuePixelRatio;
+              x = this.plotLeft + (i * (this.config.barWidth + this.config.barSpacing));
+              y = this.plotTop + this.plotHeight - h;
+              //if (this.dataValuesLength > 1) {
+                  //if (!this.config.stacked) {
+                  //    x += (j * (barWidth + seriesSpacing));
+                  //} else {
+                  //    y -= (dValue * this.valuePixelRatio)
+                  //}
+              //}
+              
+              dValue += d.values[j];
+              
+              // Hiermee kun je ook nog de bar tekenen zodat je ze beide hebt:
+              // ctx.fillRect(x,
+                  // y,
+                  // barWidth,
+                  // h);
+              var realx = x + halfBarWidth;
+              
+              if (i == 0) {
+                ctx.moveTo(realx, y);                
+              } else {
+                ctx.lineTo(realx, y);
+              }
+             
+             
+              if (this.config.showValues) {
+                switch (this.config.showValues) {
+                  case "inside":
+                    
+                    valuesToDraw.push({
+                      text : d.values[j],
+                      x : x + halfBarWidth,
+                      y : y + (h / 2)
+                    });
+                    break;
+                  case "above": // fallthrough
+                  default:
+                    
+                    valuesToDraw.push({
+                      text : d.values[j],
+                      x : x + halfBarWidth,
+                      y : y - 5
+                    });
+                    break;
+                }
+              }
+          
+          if (d.label !== undefined && j === 0) {
+              ctx.fillText(d.label,
+                  dx + (this.config.barWidth / 2),
+                  this.xTicksTop + (this.xTicksHeight / 2));
+          }
+          
+      }
+      
+      ctx.stroke();
+    
     }
     
+    valuesToDraw.forEach(function(v) {
+      ctx.fillText(v.text, v.x, v.y);
+    });
+    
     if (this.config.xLabel) {
+        ctx.save();
         ctx.fillStyle = this.config.xLabelFillStyle;
         ctx.font = "bold 12px arial";
         ctx.textAlign = "right";
@@ -329,6 +340,7 @@ Graph.prototype.drawLine = function() {
         ctx.fillText(this.config.xLabel,
             this.plotLeft + this.plotWidth,
             this.xLabelTop + (this.xLabelHeight / 2));
+        ctx.restore();
     }
     
     if (this.config.yLabel) {
@@ -397,6 +409,8 @@ Graph.prototype.drawBar = function() {
     
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
+    
+    var valuesToDraw = [];
 
     for (i = 0; i < this.dataLength; i++) {
     
@@ -458,17 +472,25 @@ Graph.prototype.drawBar = function() {
             
             ctx.restore();
             
-            // Better is to draw this after all bars have been drawed.
-            // Because then these always show on top (for example in stacked bars
-            // and show values "above" will cut these values off now).
+            
             if (this.config.showValues) {
               switch (this.config.showValues) {
                 case "inside":
-                  ctx.fillText(d.values[j], x + (this.config.barWidth / 2), y + (h / 2));
+                  
+                  valuesToDraw.push({
+                      text : d.values[j],
+                      x : x + (this.config.barWidth / 2),
+                      y : y + (h / 2)
+                    });
                   break;
                 case "above": // fallthrough
                 default:
-                  ctx.fillText(d.values[j], x + (this.config.barWidth / 2), y - 5);
+                  
+                  valuesToDraw.push({
+                      text : d.values[j],
+                      x : x + (this.config.barWidth / 2),
+                      y : y - 5
+                    });
                   break;
               }
             }
@@ -481,6 +503,10 @@ Graph.prototype.drawBar = function() {
                 this.xTicksTop + (this.xTicksHeight / 2));
         }
     }
+    
+    valuesToDraw.forEach(function(v) {
+      ctx.fillText(v.text, v.x, v.y);
+    });
     
     if (this.config.xLabel) {
         ctx.fillStyle = this.config.xLabelFillStyle;

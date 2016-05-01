@@ -198,7 +198,7 @@ graph3.draw();</textarea>
   
   <div><button onclick="executeGraph('graphPie')">Execute</button></div>
   
-  <textarea data-id="graphPie" class="js">var data = [
+  <textarea data-id="graphPie" class="js">var data4 = [
   {values : [5], label : &quot;jan&quot;, legendLabel : &quot;january&quot;, fillStyle : &quot;#55B473&quot;},
   {values : [25], label : &quot;feb&quot;, legendLabel : &quot;february&quot;, fillStyle : &quot;#4FB0C1&quot;},
   {values : [10], label : &quot;mar&quot;, legendLabel : &quot;march&quot;, fillStyle : &quot;#3B69C1&quot;},
@@ -208,7 +208,7 @@ graph3.draw();</textarea>
   {values : [20], label : &quot;jul&quot;, legendLabel : &quot;july&quot;, fillStyle : &quot;#C13B48&quot;}
 ];
 
-var config = {
+var config4 = {
   legend : true,
   title : &quot;Simple pie&quot;,
   maxValue : undefined,
@@ -223,9 +223,9 @@ var config = {
   fileName : &quot;simple_pie.png&quot;
 };
 
-var graph = new Graph(&quot;Pie&quot;,
-  document.getElementById(&quot;graphPie&quot;), data, config);
-graph.draw();</textarea>
+var graph4 = new Graph(&quot;Pie&quot;,
+  document.getElementById(&quot;graphPie&quot;), data4, config4);
+graph4.draw();</textarea>
 
 
 
@@ -241,17 +241,21 @@ graph.draw();</textarea>
     </div>
   
   <div><button onclick="executeGraph('graphLineOneSerie')">Execute</button></div>
-  <textarea data-id="graphLineOneSerie" class="js">var data = [
-  {values : [22], label : &quot;jan&quot;, legendLabel : &quot;january&quot;, fillStyle : &quot;#55B473&quot;},
-  {values : [25], label : &quot;feb&quot;, legendLabel : &quot;february&quot;, fillStyle : &quot;#4FB0C1&quot;},
-  {values : [16], label : &quot;mar&quot;, legendLabel : &quot;march&quot;, fillStyle : &quot;#3B69C1&quot;},
-  {values : [25], label : &quot;apr&quot;, legendLabel : &quot;april&quot;, fillStyle : &quot;#6766C1&quot;},
-  {values : [10], label : &quot;may&quot;, legendLabel : &quot;may&quot;, fillStyle : &quot;#9157C1&quot;},
-  {values : [4], label : &quot;jun&quot;, legendLabel : &quot;june&quot;, fillStyle : &quot;#B44D8B&quot;},
-  {values : [17], label : &quot;jul&quot;, legendLabel : &quot;july&quot;, fillStyle : &quot;#C13B48&quot;}
+  <textarea data-id="graphLineOneSerie" class="js">var data5 = [
+  {values : [22, 16], label : &quot;jan&quot;},
+  {values : [25, 30], label : &quot;feb&quot;},
+  {values : [16, 10], label : &quot;mar&quot;},
+  {values : [25, 10], label : &quot;apr&quot;},
+  {values : [10, 15], label : &quot;may&quot;},
+  {values : [4, 8], label : &quot;jun&quot;},
+  {values : [17, 25], label : &quot;jul&quot;}
 ];
 
-var config = {
+var config5 = {
+  series : [
+    {label : &quot;male&quot;, fillStyle : &quot;#66D9EF&quot;},
+    {label : &quot;female&quot;, fillStyle : &quot;#F92672&quot;}
+  ],
   legend : true,
   title : &quot;Simple line&quot;,
   maxValue : undefined,
@@ -263,19 +267,21 @@ var config = {
   paddingTop : 60,
   paddingBottom : 60,
   fillStyle : &quot;white&quot;,
+  strokeStyle : &quot;purple&quot;,
   gridStrokeStyle : &quot;black&quot;,
   labelColor : &quot;black&quot;,
   xLabel : &quot;Months&quot;,
   yLabel : &quot;Unique pageviews&quot;,
   xLabelFillStyle : &quot;#404040&quot;,
   yLabelFillStyle : &quot;#404040&quot;,
-  showValues : &quot;above&quot;
+  showValues : &quot;above&quot;,
+  lineWidth : 6
   //fileName : &quot;simple_line.png&quot;
 };
 
-var graph = new Graph(&quot;Line&quot;,
-  document.getElementById(&quot;graphLineOneSerie&quot;), data, config);
-graph.draw();</textarea>
+var graph5 = new Graph(&quot;Line&quot;,
+  document.getElementById(&quot;graphLineOneSerie&quot;), data5, config5);
+graph5.draw();</textarea>
 
 
 
