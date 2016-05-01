@@ -178,6 +178,177 @@ Graph.prototype.draw = function() {
 
 };
 
+// LINES
+Graph.prototype.initLine = function() {
+    if (this.config.barSpacing === undefined) {
+        this.config.barSpacing = 10;
+    }
+    if (this.config.barWidth === undefined) {
+        this.config.barWidth =
+            (this.plotWidth - ((this.dataLength - 1) * this.config.barSpacing))
+            / this.dataLength;
+    }
+    this.xTicksHeight = this.config.paddingBottom;
+    this.xTicksTop = this.plotTop + this.plotHeight;    
+    if (this.config.xLabel) {
+        this.xTicksHeight = this.xLabelHeight = this.config.paddingBottom / 2;
+        this.xLabelTop = this.xTicksTop + this.xTicksHeight;
+    }
+    this.yTicksWidth = this.config.paddingLeft;
+    this.yTicksLeft = 0;
+    if (this.config.yLabel) {
+        this.yTicksWidth = this.yLabelWidth = this.config.paddingLeft / 2;
+        this.yLabelLeft = 0;
+        this.yTicksLeft = this.yLabelWidth;
+    }
+};
+
+
+
+Graph.prototype.drawLine = function() {
+
+    var ctx = this.context,
+        previousX = null, previousY = null,
+        seriesSpacing = this.config.seriesSpacing || 10,
+        barWidth = this.config.barWidth,
+        halfBarWidth = barWidth / 2,
+        i, j, h, d, x, y, dx, dValue, dTotalValue, dTotalHeight, shadowValue;
+        
+    ctx.save();
+    
+    if (this.dataValuesLength > 1 && !this.config.stacked) {
+        barWidth = this.config.barWidth / this.dataValuesLength;
+        barWidth -= seriesSpacing / 2;
+    }
+    
+    
+    
+    this.drawGridAndValues();
+    
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+
+    for (i = 0; i < this.dataLength; i++) {
+    
+        d = this.data[i];
+        
+        dx = this.plotLeft + (i * (this.config.barWidth + this.config.barSpacing));
+        dValue = 0;
+        dTotalValue = 0;
+        
+        if (this.dataValuesLength > 1 && this.config.stacked) {
+            for (j = 0; j < d.values.length; j++) {
+                dTotalValue += d.values[j];
+            }
+        }
+        
+        for (j = 0; j < d.values.length; j++) {
+        
+            ctx.save();
+        
+            h = d.values[j] * this.valuePixelRatio;
+            x = this.plotLeft + (i * (this.config.barWidth + this.config.barSpacing));
+            y = this.plotTop + this.plotHeight - h;
+            if (this.dataValuesLength > 1) {
+                if (!this.config.stacked) {
+                    x += (j * (barWidth + seriesSpacing));
+                } else {
+                    y -= (dValue * this.valuePixelRatio)
+                }
+            }
+            
+            dValue += d.values[j];
+            
+            // if (dTotalValue || !this.config.stacked) {
+                // shadowValue = dTotalValue || d.values[j];
+                // ctx.save();
+                // ctx.fillStyle = "#666";
+                // ctx.shadowColor = "#666";
+                // ctx.shadowOffsetX = 4;
+                // ctx.shadowOffsetY = 2;
+                // ctx.shadowBlur = 8;
+                // dTotalHeight = shadowValue * this.valuePixelRatio;
+                // ctx.fillRect(x,
+                    // this.plotTop + this.plotHeight - dTotalHeight,
+                    // barWidth,
+                    // dTotalHeight);
+                // dTotalValue = 0; // zodat deze NIET meer wordt getekend!
+                // ctx.restore();
+            // }
+        
+            
+        
+            ctx.fillStyle = (this.config.series.length && this.config.series[j].fillStyle)
+                || d.fillStyle;
+            
+            // Hiermee kun je ook nog de bar tekenen zodat je ze beide hebt:
+            ctx.fillRect(x,
+                y,
+                barWidth,
+                h);
+            ctx.moveTo(previousX === null ? (x + halfBarWidth) : (previousX + halfBarWidth), previousY === null ? y : previousY);
+            ctx.lineTo(x + halfBarWidth, y);
+            //ctx.stroke();
+            
+            ctx.restore();
+            
+            // Better is to draw this after all bars have been drawed.
+            // Because then these always show on top (for example in stacked bars
+            // and show values "above" will cut these values off now).
+            if (this.config.showValues) {
+              switch (this.config.showValues) {
+                case "inside":
+                  ctx.fillText(d.values[j], x + halfBarWidth, y + (h / 2));
+                  break;
+                case "above": // fallthrough
+                default:
+                  ctx.fillText(d.values[j], x + halfBarWidth, y - 5);
+                  break;
+              }
+            }
+            
+            previousX = x;
+            previousY = y;
+
+        }
+        
+        ctx.stroke();
+        
+        if (d.label !== undefined) {
+            ctx.fillText(d.label,
+                dx + (this.config.barWidth / 2),
+                this.xTicksTop + (this.xTicksHeight / 2));
+        }
+    }
+    
+    if (this.config.xLabel) {
+        ctx.fillStyle = this.config.xLabelFillStyle;
+        ctx.font = "bold 12px arial";
+        ctx.textAlign = "right";
+        ctx.textBaseline = "middle";
+        ctx.fillText(this.config.xLabel,
+            this.plotLeft + this.plotWidth,
+            this.xLabelTop + (this.xLabelHeight / 2));
+    }
+    
+    if (this.config.yLabel) {
+        ctx.save();
+        ctx.fillStyle = this.config.yLabelFillStyle;
+        ctx.font = "bold 12px arial";
+        ctx.textAlign = "left";
+        ctx.textBaseline = "middle";
+        var textWidth = ctx.measureText(this.config.yLabel).width;
+        ctx.translate(this.yLabelWidth / 2, this.plotTop + textWidth);
+        ctx.rotate(-(Math.PI / 2));
+        ctx.fillText(this.config.yLabel,
+            0,
+            0);
+        ctx.restore();
+    }
+    
+    ctx.restore();
+
+};
 
 // BAR
 Graph.prototype.initBar = function() {

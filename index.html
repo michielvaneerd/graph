@@ -227,6 +227,59 @@ var graph = new Graph(&quot;Pie&quot;,
   document.getElementById(&quot;graphPie&quot;), data, config);
 graph.draw();</textarea>
 
+
+
+
+<h3>Line</h3>
+  
+  <h4>Line graph with one serie</h4>
+  
+  <div class="pure-g">
+        <div class="pure-u-1 graphContainer">
+          <canvas id="graphLineOneSerie" width="400" height="300"></canvas>
+        </div>
+    </div>
+  
+  <div><button onclick="executeGraph('graphLineOneSerie')">Execute</button></div>
+  <textarea data-id="graphLineOneSerie" class="js">var data = [
+  {values : [22], label : &quot;jan&quot;, legendLabel : &quot;january&quot;, fillStyle : &quot;#55B473&quot;},
+  {values : [25], label : &quot;feb&quot;, legendLabel : &quot;february&quot;, fillStyle : &quot;#4FB0C1&quot;},
+  {values : [16], label : &quot;mar&quot;, legendLabel : &quot;march&quot;, fillStyle : &quot;#3B69C1&quot;},
+  {values : [25], label : &quot;apr&quot;, legendLabel : &quot;april&quot;, fillStyle : &quot;#6766C1&quot;},
+  {values : [10], label : &quot;may&quot;, legendLabel : &quot;may&quot;, fillStyle : &quot;#9157C1&quot;},
+  {values : [4], label : &quot;jun&quot;, legendLabel : &quot;june&quot;, fillStyle : &quot;#B44D8B&quot;},
+  {values : [17], label : &quot;jul&quot;, legendLabel : &quot;july&quot;, fillStyle : &quot;#C13B48&quot;}
+];
+
+var config = {
+  legend : true,
+  title : &quot;Simple line&quot;,
+  maxValue : undefined,
+  gridValue : 6,
+  barWidth : undefined,
+  barSpacing : 20,
+  paddingRight : 100,
+  paddingLeft : 60,
+  paddingTop : 60,
+  paddingBottom : 60,
+  fillStyle : &quot;white&quot;,
+  gridStrokeStyle : &quot;black&quot;,
+  labelColor : &quot;black&quot;,
+  xLabel : &quot;Months&quot;,
+  yLabel : &quot;Unique pageviews&quot;,
+  xLabelFillStyle : &quot;#404040&quot;,
+  yLabelFillStyle : &quot;#404040&quot;,
+  showValues : &quot;above&quot;
+  //fileName : &quot;simple_line.png&quot;
+};
+
+var graph = new Graph(&quot;Line&quot;,
+  document.getElementById(&quot;graphLineOneSerie&quot;), data, config);
+graph.draw();</textarea>
+
+
+
+
 <footer id="sitefooter">
   &copy; 2015, <a href="http://www.michielvaneerd.nl">Michiel van Eerd</a>
 </footer>
